@@ -42,6 +42,19 @@
 - **Vite コンテナの注意点**:
   - コンテナ外（Nginx）からアクセスできるように `pnpm dev --host 0.0.0.0` を指定する必要がある（デフォルトは `localhost` のみ待ち受けで 502 になる）。
 - **構文検証**: `docker compose config -q` で起動前に YAML と設定の妥当性をチェックできる。
+- **Node 26 の変更点**: Node 26 イメージ（`node:26-alpine`）では `corepack` が標準同梱されなくなったため、`npm install -g pnpm` で導入する形に変更。
+- **LAN アクセスとポート衝突**: ホスト側の別コンテナ（`javaflow-app`）が 8080 番を使用していたため Nginx の公開ポートを `8081:80` に変更。また、LAN 経由でホスト名アクセスしてもブロックされないよう `frontend/vite.config.ts` に `server.allowedHosts: true` を設定。
+
+### Laravel / React 初期疎通（`/api/health`）
+- **`docker compose run --rm` vs `exec`**:
+  - `run --rm`: コンテナ停止中でも一時コンテナを起動して実行・終了後削除（`composer create-project` などの初期化向け）。
+  - `exec`: `up -d` で起動中のコンテナに入って即実行（普段の `php artisan` 向け）。
+- **Laravel 11 以降の API 初期化**: `php artisan install:api` で `routes/api.php` 作成と Laravel Sanctum 導入を一括実行できる。
+- **React + TypeScript の基礎（Vue / Java との対比）**:
+  - `useState` ≒ Vue の `ref`、`useEffect(..., [])` ≒ Vue の `onMounted`。
+  - `useEffect` のコールバック自体は `async` にできない（クリーンアップ関数を返す仕様のため）。
+  - TypeScript の `type` は型チェック専用で、Java の `class` のように `new` できない。
+  - `fetch()` は2段階の `.then()`（1段目で `res.ok` チェック＆`res.json()`、2段目で JSON データを受け取って `setState`）＋ `.catch()` でエラー処理する。
 
 ### 開発環境トラブルシュート（VS Code Remote - SSH）
 - **Remote - SSH で補完が効かないときの確認ポイント**:
