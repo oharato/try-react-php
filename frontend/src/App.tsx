@@ -1,20 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 
 type HealthResponse = {
-  status: string
-  php_version: string
-}
+  status: string;
+  php_version: string;
+};
 
 function App() {
   const [health, setHealth] = useState<HealthResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
-    fetch('/api/health').then((res) => {
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return res.json() as Promise<HealthResponse>;
-    }).then((data) => setHealth(data))
-      .catch((err) => setError(err))
-
+    fetch("/api/health")
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json() as Promise<HealthResponse>;
+      })
+      .then((data) => setHealth(data))
+      .catch((err) => setError(err));
   }, []);
   return (
     <main>
@@ -28,7 +29,7 @@ function App() {
         </div>
       )}
     </main>
-  )
+  );
 }
 
-export default App
+export default App;
