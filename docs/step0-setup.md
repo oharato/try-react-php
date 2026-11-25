@@ -122,10 +122,10 @@ pnpm install
 
 ## 3. 完了チェックリスト
 
-- [ ] `http://localhost:8080/api/health` が JSON を返す
-- [ ] `http://localhost:8080/` で React 画面が表示され、API から取得した PHP バージョンが表示される
-- [ ] `docker compose exec php php artisan migrate` が MySQL に対して成功する
-- [ ] `docs/adr/001-tech-stack.md` に「なぜ Nginx リバースプロキシ＋Docker 構成にしたか」を自分の言葉で書いた
+- [x] `http://localhost:8080/api/health` が JSON を返す（本環境ではポート `8081`）
+- [x] `http://localhost:8080/` で React 画面が表示され、API から取得した PHP バージョンが表示される
+- [x] `docker compose exec php php artisan migrate` が MySQL に対して成功する
+- [x] `docs/adr/001-tech-stack.md` に「なぜ Nginx リバースプロキシ＋Docker 構成にしたか」を自分の言葉で書いた
 
 ---
 
